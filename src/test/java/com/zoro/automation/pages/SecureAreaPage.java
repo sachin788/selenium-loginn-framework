@@ -1,30 +1,28 @@
 package com.zoro.automation.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+
 
 public class SecureAreaPage extends BasePage {
-//      WebDriver driver;
-      public SecureAreaPage(WebDriver driver) {
-		  super(driver);
+      public SecureAreaPage() {
+		  super();
 	  }
       By secureAreaHeader = By.cssSelector(".example h2");
       By flashMessage = By.id("flash");
       By logoutButton = By.cssSelector("a.button.secondary.radius");
       public String getHeaderText(){
-    	  return driver.findElement(secureAreaHeader).getText();
+    	  return getText(secureAreaHeader);
     	  
       }
       public String getCurrentUrl() {
 		  return driver.getCurrentUrl();
 	  }
       public String flashMessage() {
-    	  waitForVisibility(flashMessage);
-		  return driver.findElement(flashMessage).getText();
+    	  return getText(flashMessage);
 	  }
-      public void clickLogout(){
-    	  waitForClickability(logoutButton);
-    	  driver.findElement(logoutButton).click();
+      public LoginPage clickLogout(){
+    	 click(logoutButton);
+    	 return new LoginPage();
       }
       
 }

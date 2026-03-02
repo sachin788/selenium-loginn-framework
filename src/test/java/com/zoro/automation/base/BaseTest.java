@@ -1,36 +1,35 @@
 package com.zoro.automation.base;
 
-import java.time.Duration;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import com.zoro.automation.factory.DriverFactory;
+import com.zoro.automation.utils.ConfigReader;
+
 public class BaseTest {
 
-    protected WebDriver driver;
-
+   
+    private String browser;
+    private String baseUrl;
+    private ConfigReader configReader;
+   
     @BeforeMethod
     public void setup() {
-    	System.out.println("SETUP RUNNING");
-        driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/login");
-        driver.manage().window().maximize();
+    	
+    	configReader = new ConfigReader();
+    	browser = configReader.getProperty("browser");
+    	baseUrl = configReader.getProperty("baseUrl");
+    	DriverFactory.initDriver(browser);
+    	DriverFactory.getDriver().manage().window().maximize();
+    	DriverFactory.getDriver().get(baseUrl);
     }
 
     @AfterMethod
     public void tearDown() {
-        driver.quit();
+    	 DriverFactory.quitDriver();
+        
     }
    
-
-	
-//	public void WebDriverWait(WebDriver driver) {
-//		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//		return wait;
-//	}
 }
+	
+

@@ -11,38 +11,27 @@ public class LoginTest extends BaseTest {
 	
 	@Test
 	public void testValidLogin() {
-
-		SecureAreaPage secureAreaPage = new SecureAreaPage(driver);
-		LoginPage loginPage = new LoginPage(driver);
-	    loginPage.enterUserPass("tomsmith", "SuperSecretPassword!");
-	    loginPage.clickLogin();
+		LoginPage loginPage = new LoginPage();
+		SecureAreaPage secureAreaPage = loginPage.login("tomsmith", "SuperSecretPassword!");
+		secureAreaPage.flashMessage();
 	    Assert.assertTrue(secureAreaPage.getCurrentUrl().contains("/secure"));
 	    Assert.assertEquals(secureAreaPage.getHeaderText() ,"Secure Area");
 	    Assert.assertTrue(secureAreaPage.flashMessage().contains("You logged into a secure area!"));
-	    secureAreaPage.clickLogout();
-	    Assert.assertTrue(loginPage.getCurrentUrl().contains("/login"));
-//	    driver.quit();
+	    LoginPage returnedLoginPage = secureAreaPage.clickLogout();
+	    Assert.assertTrue(returnedLoginPage.getCurrentUrl().contains("/login"));
 	}
-//	@Test
-//	public void testInvalidLogin() {
-//	    driver.get("https://the-internet.herokuapp.com/login");
-//		LoginPage loginPage = new LoginPage(driver);
-//	    loginPage.enterUsername("&*)$&");
-//	    loginPage.enterPassword("SuperSecretPassword! ");
-//	    loginPage.clickLogin();
-//	    Assert.assertTrue(loginPage.getErrorMessage()
-//                .contains("Your username is invalid!"));
-//	    driver.quit();
-//	}
-//	@Test
-//	public void testEmptyCredentials() {
-//	    driver.get("https://the-internet.herokuapp.com/login");
-//		LoginPage loginPage = new LoginPage(driver);
-//	    loginPage.enterUsername("");
-//	    loginPage.enterPassword("");
-//	    loginPage.clickLogin();
-//	    Assert.assertTrue(loginPage.getErrorMessage()
-//                .contains("Your username is invalid!"));
-//	    driver.quit();
-//	}
+	@Test
+	public void testInvalidLogin() {
+		LoginPage loginPage = new LoginPage();
+	    loginPage.login("invalidUser", "invalidPassword");
+	    Assert.assertTrue(loginPage.getErrorMessage()
+                .contains("Your username is invalid!"));
+	}
+	@Test
+	public void testEmptyCredentials() {
+		LoginPage loginPage = new LoginPage();
+	    loginPage.login(",", ",");
+	    Assert.assertTrue(loginPage.getErrorMessage()
+                .contains("Your username is invalid!"));
+	}
 }
