@@ -1,14 +1,14 @@
-Test Layer
-   ↓
-Page Layer (POM)
-   ↓
-BasePage (Reusable Actions)
-   ↓
-DriverFactory (Driver Management)
-   ↓
-WebDriver (Browser)
+Basic LoginPage Understanding:
 
-
+                          Test Layer
+                              ↓
+                       Page Layer (POM)
+                              ↓
+                   BasePage (Reusable Actions)
+                              ↓
+               DriverFactory (Driver Management)
+                              ↓
+                      WebDriver (Browser)
 Login scenario flow :
 
                 TestNG
