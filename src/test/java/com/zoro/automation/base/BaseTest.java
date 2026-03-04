@@ -1,31 +1,41 @@
 package com.zoro.automation.base;
 
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 
 import com.zoro.automation.factory.DriverFactory;
 import com.zoro.automation.utils.ConfigReader;
+import com.zoro.automation.utils.ScreenshotUtils;
 
 public class BaseTest {
 
    
-    private String browser;
-    private String baseUrl;
+//    private String browser;
+   
     private ConfigReader configReader;
    
     @BeforeMethod
-    public void setup() {
+    @Parameters("browser")
+    public void setup(String browser) {
     	
     	configReader = new ConfigReader();
     	browser = configReader.getProperty("browser");
-    	baseUrl = configReader.getProperty("baseUrl");
     	DriverFactory.initDriver(browser);
     	DriverFactory.getDriver().manage().window().maximize();
-    	DriverFactory.getDriver().get(baseUrl);
+    }
+   
+    protected void navigateTo(String urlKey) {
+        String url = configReader.getProperty(urlKey);
+        DriverFactory.getDriver().get(url);
     }
 
     @AfterMethod
-    public void tearDown() {
+    public void tearDown(ITestResult result) {
+		if (result.getStatus() == ITestResult.FAILURE) {
+			ScreenshotUtils.takeScreenshot(result.getName());
+		}
     	 DriverFactory.quitDriver();
         
     }

@@ -26,8 +26,6 @@ public class LoginPage extends BasePage {
 		return driver.findElement(errorMessage).getText();
 	}
 	
-	public String getCurrentUrl() {
-		  return driver.getCurrentUrl();
-	  }
+	
 	
 }

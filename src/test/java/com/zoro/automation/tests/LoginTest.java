@@ -11,7 +11,9 @@ public class LoginTest extends BaseTest {
 	
 	@Test
 	public void testValidLogin() {
+		navigateTo("baseUrl");
 		LoginPage loginPage = new LoginPage();
+		
 		SecureAreaPage secureAreaPage = loginPage.login("tomsmith", "SuperSecretPassword!");
 		secureAreaPage.flashMessage();
 	    Assert.assertTrue(secureAreaPage.getCurrentUrl().contains("/secure"));
@@ -22,6 +24,7 @@ public class LoginTest extends BaseTest {
 	}
 	@Test
 	public void testInvalidLogin() {
+		navigateTo("baseUrl");
 		LoginPage loginPage = new LoginPage();
 	    loginPage.login("invalidUser", "invalidPassword");
 	    Assert.assertTrue(loginPage.getErrorMessage()
@@ -29,9 +32,10 @@ public class LoginTest extends BaseTest {
 	}
 	@Test
 	public void testEmptyCredentials() {
+		navigateTo("baseUrl");
 		LoginPage loginPage = new LoginPage();
-	    loginPage.login(",", ",");
+	    loginPage.login("", "");
 	    Assert.assertTrue(loginPage.getErrorMessage()
-                .contains("Your username is invalid!"));
+                .contains("Your username is iinvalid!"));
 	}
 }

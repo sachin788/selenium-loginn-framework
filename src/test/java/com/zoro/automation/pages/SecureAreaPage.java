@@ -14,9 +14,7 @@ public class SecureAreaPage extends BasePage {
     	  return getText(secureAreaHeader);
     	  
       }
-      public String getCurrentUrl() {
-		  return driver.getCurrentUrl();
-	  }
+      
       public String flashMessage() {
     	  return getText(flashMessage);
 	  }

@@ -27,11 +27,13 @@ public class BasePage {
     	 getElement(locator).click();
     }
     protected void type(By locator, String text) {
-		 WaitUtils.waitForVisibility(locator, 10);
+		 
 		 WebElement element = getElement(locator);
 	     element.clear();
-	     element.sendKeys(text);
+	     waitForVisibility(locator).sendKeys(text);
+	     
 	}
+    
     protected String getText(By locator) {
         WaitUtils.waitForVisibility(locator, 10);
         return getElement(locator).getText();
@@ -45,11 +47,14 @@ public class BasePage {
             return false;
         }
     }
-    protected void waitForVisibility(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    protected WebElement waitForVisibility(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     protected void waitForClickability(By locator) {
         wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
     }
 }
